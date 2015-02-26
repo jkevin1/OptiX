@@ -8,5 +8,5 @@ TODO: texture mapping, fix a few bugs
 Example teapot scene
 ![teapot](https://raw.github.com/jkevin1/OptiX/master/teapot.png)
 
-Example teapot scene
+Example sponza scene
 ![sponza](https://raw.github.com/jkevin1/OptiX/master/sponza.png)
