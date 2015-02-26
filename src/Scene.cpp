@@ -75,7 +75,7 @@ Material Scene::createPhongMaterial(float3 Ks, float3 Ka, float3 Kd, float exp, 
 
 GeometryGroup Scene::loadOBJ(const char* filename, Material material) {
 	GeometryGroup geometry = context->createGeometryGroup();
-	ObjLoader loader(filename, context, geometry, material);
+	ObjLoader loader(filename, context, geometry, material, true);
 	//TODO intersectprogram
 	loader.load();
 	return geometry;
