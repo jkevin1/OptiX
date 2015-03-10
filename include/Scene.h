@@ -1,12 +1,8 @@
 #pragma once
 
-#include <optixu/optixpp_namespace.h>
-#include <optixu/optixu_math_namespace.h>
-#include "Constants.h"
 #include <list>
-
-using namespace optix;
-using namespace std;
+#include "OptiX.h"
+#include "Common.h"
 
 /*
  *	This class stores information about an optix scene, including the camera, materials, geometries
@@ -14,20 +10,23 @@ using namespace std;
  */
 
 class Scene {
-	vector<BasicLight> lights;
+	std::vector<BasicLight> lights;
+	std::vector<GeometryInstance> objects;
 public:
-	static void init(int* arc, char** argv);
-
-	Context context;
 	const unsigned width, height;
+	Context context;
 
-	Scene(unsigned width, unsigned height, float3 eye, float3 at, float3 up, float hfov);
+	Scene(unsigned width, unsigned height, unsigned vbo);
 	~Scene();
 
-	Material createPhongMaterial(float3 Ks, float3 Ka, float3 Kd, float exp, float3 ref);
-	GeometryGroup loadOBJ(const char* filename, Material material);
-	GeometryInstance createParallelogram(float3 v1, float3 v2, float3 anchor, Material material);
+	void setCamera(float3 eye, float3 at, float3 up, float hfov);
+
 	void addLight(float3 pos, float3 color);
-//	Geometry createSphere();	//uses bounds and intersect programs from this file
+
+	GeometryInstance& addObject(Geometry type, Material material);
+	GeometryInstance& addObject(GeometryInstance object);
+	GeometryInstance& addObject(GeometryGroup object);
+
+	void compile();
 	void render();
 };

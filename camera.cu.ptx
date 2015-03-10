@@ -6,7 +6,7 @@
 	.func _ZN5optix16rt_undefined_useEi (.reg .u32 %ra1)
 
 	//-----------------------------------------------------------
-	// Compiling C:/Users/Kevin/AppData/Local/Temp/tmpxft_00002048_00000000-12_camera.cpp3.i (C:/Users/Kevin/AppData/Local/Temp/ccBI#.a01836)
+	// Compiling C:/Users/Kevin/AppData/Local/Temp/tmpxft_00001e24_00000000-12_camera.cpp3.i (C:/Users/Kevin/AppData/Local/Temp/ccBI#.a06040)
 	//-----------------------------------------------------------
 
 	//-----------------------------------------------------------
@@ -18,9 +18,9 @@
 	//  -m2	(Report advisories)
 	//-----------------------------------------------------------
 
-	.file	1	"C:/Users/Kevin/AppData/Local/Temp/tmpxft_00002048_00000000-11_camera.cudafe2.gpu"
+	.file	1	"C:/Users/Kevin/AppData/Local/Temp/tmpxft_00001e24_00000000-11_camera.cudafe2.gpu"
 	.file	2	"c:\programdata\nvidia corporation\optix sdk 3.6.3\include\optix_device.h"
-	.file	3	"include\Constants.h"
+	.file	3	"include\Common.h"
 	.file	4	"c:\programdata\nvidia corporation\optix sdk 3.6.3\include\internal/optix_datatypes.h"
 	.file	5	"c:\programdata\nvidia corporation\optix sdk 3.6.3\include\internal\optix_defines.h"
 	.file	6	"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\crtdefs.h"
@@ -37,7 +37,7 @@
 	.file	17	"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v5.5/include\device_launch_parameters.h"
 	.file	18	"c:\program files\nvidia gpu computing toolkit\cuda\v5.5\include\crt\storage_class.h"
 	.file	19	"c:\programdata\nvidia corporation\optix sdk 3.6.3\include\internal\../optix_sizet.h"
-	.file	20	"D:/Kevin/Programming/OptiX/CUDA/camera.cu"
+	.file	20	"D:/Programming/OptiX/CUDA/camera.cu"
 	.file	21	"c:\programdata\nvidia corporation\optix sdk 3.6.3\include\internal/optix_internal.h"
 	.file	22	"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v5.5/include\common_functions.h"
 	.file	23	"c:\program files\nvidia gpu computing toolkit\cuda\v5.5\include\math_functions.h"
@@ -73,7 +73,7 @@
 	.reg .u32 %ra1;
 	.reg .u32 %r<35>;
 	.reg .f32 %f<68>;
-	.local .align 4 .b8 __cuda___cuda_local_var_398315_22_non_const_data_1692[20];
+	.local .align 4 .b8 __cuda___cuda_local_var_398340_22_non_const_data_1692[20];
 	.loc	20	17	0
 $LDWbegin__Z6raygenv:
 	ld.global.v2.u32 	{%r1,%r2}, [launch_index+0];
@@ -112,10 +112,10 @@ $LDWbegin__Z6raygenv:
 	rsqrt.approx.f32 	%f37, %f36;
 	.loc	20	24	0
 	mov.f32 	%f38, 0f3f800000;    	// 1
-	st.local.f32 	[__cuda___cuda_local_var_398315_22_non_const_data_1692+12], %f38;
+	st.local.f32 	[__cuda___cuda_local_var_398340_22_non_const_data_1692+12], %f38;
 	.loc	20	25	0
 	mov.s32 	%r5, 0;
-	st.local.s32 	[__cuda___cuda_local_var_398315_22_non_const_data_1692+16], %r5;
+	st.local.s32 	[__cuda___cuda_local_var_398340_22_non_const_data_1692+16], %r5;
 	.loc	20	27	0
 	ld.global.u32 	%r6, [objects+0];
 	ld.global.v4.f32 	{%f39,%f40,%f41,_}, [eye+0];
@@ -124,7 +124,7 @@ $LDWbegin__Z6raygenv:
 	mul.f32 	%f43, %f31, %f37;
 	mul.f32 	%f44, %f33, %f37;
 	.loc	21	213	0
-	mov.u32 	%ra1, __cuda___cuda_local_var_398315_22_non_const_data_1692;
+	mov.u32 	%ra1, __cuda___cuda_local_var_398340_22_non_const_data_1692;
 	call.uni _ZN5optix16rt_undefined_useEi, (%ra1);
 	.loc	21	215	0
 	mov.u32 	%r7, %r6;
@@ -140,23 +140,23 @@ $LDWbegin__Z6raygenv:
 	mov.f32 	%f52, %f51;
 	mov.f32 	%f53, 0f6c4ecb8f;    	// 1e+027
 	mov.f32 	%f54, %f53;
-	mov.u32 	%r10, __cuda___cuda_local_var_398315_22_non_const_data_1692;
+	mov.u32 	%r10, __cuda___cuda_local_var_398340_22_non_const_data_1692;
 	mov.u32 	%r11, %r10;
 	mov.u32 	%r12, 20;
 	mov.u32 	%r13, %r12;
 	call _rt_trace, (%r7, %f45, %f46, %f47, %f48, %f49, %f50, %r9, %f52, %f54, %r11, %r13);
 	.loc	20	29	0
-	ld.local.f32 	%f55, [__cuda___cuda_local_var_398315_22_non_const_data_1692+8];
+	ld.local.f32 	%f55, [__cuda___cuda_local_var_398340_22_non_const_data_1692+8];
 	cvt.sat.f32.f32 	%f56, %f55;
 	mov.f32 	%f57, 0f437ffd71;    	// 255.99
 	mul.f32 	%f58, %f56, %f57;
 	cvt.rzi.u32.f32 	%r14, %f58;
-	ld.local.f32 	%f59, [__cuda___cuda_local_var_398315_22_non_const_data_1692+4];
+	ld.local.f32 	%f59, [__cuda___cuda_local_var_398340_22_non_const_data_1692+4];
 	cvt.sat.f32.f32 	%f60, %f59;
 	mov.f32 	%f61, 0f437ffd71;    	// 255.99
 	mul.f32 	%f62, %f60, %f61;
 	cvt.rzi.u32.f32 	%r15, %f62;
-	ld.local.f32 	%f63, [__cuda___cuda_local_var_398315_22_non_const_data_1692+0];
+	ld.local.f32 	%f63, [__cuda___cuda_local_var_398340_22_non_const_data_1692+0];
 	cvt.sat.f32.f32 	%f64, %f63;
 	mov.f32 	%f65, 0f437ffd71;    	// 255.99
 	mul.f32 	%f66, %f64, %f65;
@@ -232,7 +232,7 @@ $Lt_1_8194:
 	.loc	2	2357	0
 	mov.u32 	%r21, 0;
 	setp.eq.s32 	%p3, %r18, %r21;
-	@%p3 bra 	$LDWendi__ZN63_INTERNAL_41_tmpxft_00002048_00000000_5_camera_cpp1_ii_40b6c2ed5optix15rt_print_activeEv_249_1;
+	@%p3 bra 	$LDWendi__ZN63_INTERNAL_41_tmpxft_00001e24_00000000_5_camera_cpp1_ii_40b6c2ed5optix15rt_print_activeEv_249_1;
 	.loc	2	2358	0
 	mov.s32 	%r22, %r2;
 	.loc	21	399	0
@@ -274,10 +274,10 @@ $Lt_1_8194:
 	add.s32 	%r46, %r18, 20;
 	mov.u32 	%r47, %r46;
 	call (), _rt_print_write32, (%r45, %r47);
-	bra.uni 	$LDWendi__ZN63_INTERNAL_41_tmpxft_00002048_00000000_5_camera_cpp1_ii_40b6c2ed5optix15rt_print_activeEv_249_1;
+	bra.uni 	$LDWendi__ZN63_INTERNAL_41_tmpxft_00001e24_00000000_5_camera_cpp1_ii_40b6c2ed5optix15rt_print_activeEv_249_1;
 $Lt_1_11778:
 	ld.global.v2.u32 	{%r19,%r20}, [launch_index+0];
-$LDWendi__ZN63_INTERNAL_41_tmpxft_00002048_00000000_5_camera_cpp1_ii_40b6c2ed5optix15rt_print_activeEv_249_1:
+$LDWendi__ZN63_INTERNAL_41_tmpxft_00001e24_00000000_5_camera_cpp1_ii_40b6c2ed5optix15rt_print_activeEv_249_1:
 	ld.global.v4.f32 	{%f1,%f2,%f3,_}, [exception_color+0];
 	.loc	20	40	0
 	cvt.sat.f32.f32 	%f4, %f3;

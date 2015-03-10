@@ -2,8 +2,9 @@
 
 Creating a raytracer using NVIDIA OptiX.  End goal is to implement global illumination, hopefully with decent fps.
 
-Updated from C to C++ api.  Used obj loader in the SDK.
-TODO: texture mapping, fix a few bugs
+Updated to real time rendering to an OpenGL VBO which is drawn on the screen (see Viewer.cpp)
+
+Sponza in real time: https://www.youtube.com/watch?v=yyoih5evPgU&feature=youtu.be
 
 Example teapot scene with reflections
 ![teapot1](https://raw.github.com/jkevin1/OptiX/master/reflect.png)

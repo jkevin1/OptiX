@@ -4,7 +4,7 @@
 	// nvopencc 4.1 built on 2013-07-10
 
 	//-----------------------------------------------------------
-	// Compiling C:/Users/Kevin/AppData/Local/Temp/tmpxft_00003cf4_00000000-12_parallelogram.cpp3.i (C:/Users/Kevin/AppData/Local/Temp/ccBI#.a09796)
+	// Compiling C:/Users/Kevin/AppData/Local/Temp/tmpxft_00002368_00000000-12_parallelogram.cpp3.i (C:/Users/Kevin/AppData/Local/Temp/ccBI#.a14268)
 	//-----------------------------------------------------------
 
 	//-----------------------------------------------------------
@@ -16,11 +16,11 @@
 	//  -m2	(Report advisories)
 	//-----------------------------------------------------------
 
-	.file	1	"C:/Users/Kevin/AppData/Local/Temp/tmpxft_00003cf4_00000000-11_parallelogram.cudafe2.gpu"
+	.file	1	"C:/Users/Kevin/AppData/Local/Temp/tmpxft_00002368_00000000-11_parallelogram.cudafe2.gpu"
 	.file	2	"c:\programdata\nvidia corporation\optix sdk 3.6.3\include\internal/optix_datatypes.h"
 	.file	3	"c:\programdata\nvidia corporation\optix sdk 3.6.3\include\optixu/optixu_aabb_namespace.h"
 	.file	4	"c:\programdata\nvidia corporation\optix sdk 3.6.3\include\internal\optix_defines.h"
-	.file	5	"C:/Users/Kevin/AppData/Local/Temp/tmpxft_00003cf4_00000000-2_parallelogram.cudafe1.gpu"
+	.file	5	"C:/Users/Kevin/AppData/Local/Temp/tmpxft_00002368_00000000-2_parallelogram.cudafe1.gpu"
 	.file	6	"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\crtdefs.h"
 	.file	7	"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v5.5/include\crt/device_runtime.h"
 	.file	8	"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v5.5/include\host_defines.h"
@@ -35,7 +35,7 @@
 	.file	17	"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v5.5/include\device_launch_parameters.h"
 	.file	18	"c:\program files\nvidia gpu computing toolkit\cuda\v5.5\include\crt\storage_class.h"
 	.file	19	"c:\programdata\nvidia corporation\optix sdk 3.6.3\include\optix_device.h"
-	.file	20	"D:/Kevin/Programming/OptiX/CUDA/parallelogram.cu"
+	.file	20	"D:/Programming/OptiX/CUDA/parallelogram.cu"
 	.file	21	"c:\programdata\nvidia corporation\optix sdk 3.6.3\include\internal/optix_internal.h"
 	.file	22	"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v5.5/include\common_functions.h"
 	.file	23	"c:\program files\nvidia gpu computing toolkit\cuda\v5.5\include\math_functions.h"

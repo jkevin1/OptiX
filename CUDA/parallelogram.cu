@@ -36,7 +36,7 @@ RT_PROGRAM void intersect(int primIdx) {
   }
 }
 
-RT_PROGRAM void bounds (int, float result[6]) {
+RT_PROGRAM void bounds(int, float result[6]) {
   // v1 and v2 are scaled by 1./length^2.  Rescale back to normal for the bounds computation.
   const float3 tv1  = v1 / dot( v1, v1 );
   const float3 tv2  = v2 / dot( v2, v2 );

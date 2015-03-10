@@ -1,6 +1,6 @@
 
 #include <optix_world.h>
-#include "Constants.h"
+#include "Common.h"
 
 using namespace optix;
 

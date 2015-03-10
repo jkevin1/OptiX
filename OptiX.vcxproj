@@ -40,7 +40,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(OPTIXDIR)\SDK\sutil;$(CUDA_PATH_V5_5)\include;$(OPTIXDIR)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(GLEWDIR)\include;$(OPTIXDIR)\SDK\sutil;$(CUDA_PATH_V5_5)\include;$(OPTIXDIR)\include;$(GLFWDIR)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -52,7 +52,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;C:\OptiX\lib\Debug\sutil.lib;$(OPTIXDIR)\lib\optix.1.lib;$(OPTIXDIR)\lib\optixu.1.lib;$(OPTIXDIR)\SDK\support\freeglut\win32\Release\freeglut.lib;glu32.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(GLEWDIR)\lib\glew32s.lib;$(GLFWDIR)\lib\VC12\glfw3.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(OPTIXDIR)\lib\optix.1.lib;$(OPTIXDIR)\lib\optixu.1.lib;winmm.lib;C:\OptiX\lib\Debug\sutil.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CudaCompile>
       <CompileOut>%(Filename)%(Extension).ptx</CompileOut>
@@ -82,17 +82,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="demo.cpp" />
+    <ClCompile Include="src\FPSCounter.cpp" />
+    <ClCompile Include="src\OptiX.cpp" />
     <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Constants.h" />
+    <ClInclude Include="CUDA\algebra.h" />
+    <ClInclude Include="include\Common.h" />
+    <ClInclude Include="include\FPSCounter.h" />
+    <ClInclude Include="include\OptiX.h" />
     <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\Viewer.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="CUDA\camera.cu" />
     <CudaCompile Include="CUDA\parallelogram.cu" />
     <CudaCompile Include="CUDA\phong.cu" />
+    <CudaCompile Include="CUDA\torus.cu" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
