@@ -18,3 +18,10 @@ Example teapot scene without reflections
 
 Example sponza scene
 ![sponza](https://raw.github.com/jkevin1/OptiX/master/sponza.png)
+
+NOTES:
+Torus shadow bug
+Debug/Release made no difference, both cpu and gpu seem to be perfcapped?
+3 spheres scene with reflections and 4xMSAA: ~100fps...lots of rays, should be at least close to decent pathtracer w/o MSAA
+...
+
