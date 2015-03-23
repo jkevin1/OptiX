@@ -22,6 +22,8 @@ Example sponza scene
 NOTES:
 Torus shadow bug
 Debug/Release made no difference, both cpu and gpu seem to be perfcapped?
-3 spheres scene with reflections and 4xMSAA: ~100fps...lots of rays, should be at least close to decent pathtracer w/o MSAA
+3 spheres scene with reflections and 4xMSAA: ~150fps...lots of rays, should be at least close to decent pathtracer w/o MSAA
+Refractions...but it seems to have noise, at least for spheres
+Environment Map, looks a lot more interesting and helps visualize reflections, but might contribute to refraction noise
 ...
 
