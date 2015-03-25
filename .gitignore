@@ -2,6 +2,7 @@
 *.suo
 *.sdf
 *.pdb
+*.ptx
 Debug/
 *.opensdf
 sponza/
