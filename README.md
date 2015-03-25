@@ -21,7 +21,7 @@ Release build saves ~1-2ms render time
 Torus self-intersection bug, probably just avoid using torus, it has much worse fps anyway    
 Debug/Release made no difference, both cpu and gpu seem to be perfcapped?  
 Rotated-Grid Supersampling used to reduce jagged edges, approx 4x more computation  
-3 spheres scene with reflections and 4xMSAA: ~150fps...lots of rays, should be at least close to decent pathtracer w/o MSAA  
+3 spheres scene with refl/refr and 4xMSAA: ~150fps...lots of rays, similar to pathtracer w/o MSAA?  
 Refractions  
 Environment Map, looks a lot more interesting and helps visualize reflections, but might contribute to refraction noise  
 Added some path tracing tests, based on SmallPT (http://www.kevinbeason.com/smallpt/)
