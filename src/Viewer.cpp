@@ -15,12 +15,12 @@ Viewer::Viewer(const char* title, unsigned width, unsigned height, bool vsync) :
 		fprintf(stderr, "Failed to initialize GLFW\n");
 		exit(EXIT_FAILURE);
 	}
-
+/*
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_FALSE);
-
+	*/
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 	if (!window) {
@@ -64,11 +64,11 @@ Viewer::~Viewer() {
 	glfwTerminate();
 }
 
-int Viewer::isClosed() {
-	return glfwWindowShouldClose(window);
+bool Viewer::isOpen() {
+	return !glfwWindowShouldClose(window);
 }
 
-GLuint Viewer::getBuffer() {
+GLuint Viewer::getVBO() {
 	return vbo;
 }
 
@@ -96,8 +96,4 @@ void Viewer::render() {
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();
-}
-
-void Viewer::setTitle(const char* title) {
-	glfwSetWindowTitle(window, title);
 }

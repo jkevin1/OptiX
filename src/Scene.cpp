@@ -12,8 +12,8 @@ Scene::Scene(unsigned width, unsigned height, unsigned vbo) : context(createCont
 	context->setRayGenerationProgram(0, context->createProgramFromPTXFile(camera_ptx, "raygen"));
 	context->setExceptionProgram(0, context->createProgramFromPTXFile(camera_ptx, "exception"));
 	context->setMissProgram(0, context->createProgramFromPTXFile(camera_ptx, "miss"));
-	context["exception_color"]->setFloat(1.0f, 1.0f, 0.0f);
-	context["background"]->setFloat(0.0f, 1.0f, 1.0f);
+	context["exception_color"]->setFloat(1.0f, 0.0f, 1.0f);
+	context["envmap"]->setTextureSampler(loadTexture(context, "env.png"));
 }
 
 Scene::~Scene() {
@@ -79,6 +79,7 @@ void Scene::compile() {
 	for (unsigned i = 0; i < objects.size(); i++)
 		group->setChild(i, objects[i]);
 	group->setAcceleration(context->createAcceleration("Bvh", "BvhSingle"));
+	//group->setAcceleration(context->createAcceleration("NoAccel", "NoAccel"));	//plane bounding box isnt working? what?
 	context["objects"]->set(group);
 
 	//Validate and send everything to the GPU for rendering

@@ -34,7 +34,4 @@ public:
 
 	//Returns the average FPS
 	double getAverageFPS();
-
-	//Returns fps as a string
-	std::string getAverageFPSString();
 };

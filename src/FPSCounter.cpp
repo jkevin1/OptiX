@@ -29,7 +29,7 @@ double FPSCounter::nextFrame() {
 	double dt = curr - prev;
 	time += alpha * (dt - time);	//exponential moving average
 	if (delay >= 0 && (report -= dt) <= 0) {
-		printf("%.1ffps (%fms)\n", getAverageFPS(), getAverageFrameTime());
+		printf("Avg: %.5fms (%.1ffps)\n", getAverageFrameTime(), getAverageFPS());
 		report = delay;
 	}	
 	return dt;
@@ -41,10 +41,4 @@ double FPSCounter::getAverageFrameTime() {
 
 double FPSCounter::getAverageFPS() {
 	return 1.0 / time;
-}
-
-std::string FPSCounter::getAverageFPSString() {
-	std::stringstream stream;
-	stream << getAverageFPS() << "fps";
-	return stream.str();
 }

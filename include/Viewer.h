@@ -3,18 +3,17 @@
 struct GLFWwindow;
 
 class Viewer {
-	const unsigned width, height;
 	GLFWwindow* window;
 	unsigned vbo, tex;
 public:
+	const unsigned width, height;
+
 	Viewer(const char* title, unsigned width, unsigned height, bool vsync = false);
 	~Viewer();
 
-	int isClosed();
+	bool isOpen();
 
-	unsigned getBuffer();
+	unsigned getVBO();
 
 	void render();
-
-	void setTitle(const char* title);
 };

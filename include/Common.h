@@ -25,7 +25,6 @@ typedef struct struct_BasicLight {
 } BasicLight;
 
 //Structs to contain data about ray intersection
-#ifdef __CUDACC__
 struct PerRayData_radiance {
 	float3 result;
 	float  importance;
@@ -35,4 +34,3 @@ struct PerRayData_radiance {
 struct PerRayData_shadow {
   float3 attenuation;
 };
-#endif

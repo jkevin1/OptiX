@@ -42,6 +42,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(GLEWDIR)\include;$(OPTIXDIR)\SDK\sutil;$(CUDA_PATH_V5_5)\include;$(OPTIXDIR)\include;$(GLFWDIR)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(GLEWDIR)\include;$(OPTIXDIR)\SDK\sutil;$(CUDA_PATH_V5_5)\include;$(OPTIXDIR)\include;$(GLFWDIR)\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -52,18 +55,19 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(GLEWDIR)\lib\glew32s.lib;$(GLFWDIR)\lib\VC12\glfw3.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(OPTIXDIR)\lib\optix.1.lib;$(OPTIXDIR)\lib\optixu.1.lib;winmm.lib;C:\OptiX\lib\Debug\sutil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(GLEWDIR)\lib\glew32s.lib;$(GLFWDIR)\lib\VC12\glfw3.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(OPTIXDIR)\lib\optix.1.lib;$(OPTIXDIR)\lib\optixu.1.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CudaCompile>
       <CompileOut>%(Filename)%(Extension).ptx</CompileOut>
     </CudaCompile>
     <CudaCompile>
-      <Include>.\include</Include>
+      <Include>.\include;$(OPTIXDIR)\include</Include>
     </CudaCompile>
     <CudaCompile>
       <NvccCompilation>ptx</NvccCompilation>
       <GPUDebugInfo>false</GPUDebugInfo>
       <HostDebugInfo>false</HostDebugInfo>
+      <Defines>__CUDACC__</Defines>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -74,24 +78,33 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NOMINMAX;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>$(GLEWDIR)\lib\glew32s.lib;$(GLFWDIR)\lib\VC12\glfw3.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(OPTIXDIR)\lib\optix.1.lib;$(OPTIXDIR)\lib\optixu.1.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CudaCompile>
+      <Include>.\include;$(OPTIXDIR)\include</Include>
+      <CompileOut>%(Filename)%(Extension).ptx</CompileOut>
+      <NvccCompilation>ptx</NvccCompilation>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="demo.cpp" />
     <ClCompile Include="src\FPSCounter.cpp" />
+    <ClCompile Include="src\lodepng.cpp" />
     <ClCompile Include="src\OptiX.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CUDA\algebra.h" />
     <ClInclude Include="include\Common.h" />
+    <ClInclude Include="include\Controls.h" />
     <ClInclude Include="include\FPSCounter.h" />
+    <ClInclude Include="include\lodepng.h" />
     <ClInclude Include="include\OptiX.h" />
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Viewer.h" />
@@ -101,6 +114,8 @@
     <CudaCompile Include="CUDA\parallelogram.cu" />
     <CudaCompile Include="CUDA\phong.cu" />
     <CudaCompile Include="CUDA\torus.cu" />
+    <CudaCompile Include="plane.cu" />
+    <CudaCompile Include="sphere.cu" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
