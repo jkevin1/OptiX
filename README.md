@@ -16,8 +16,9 @@ Here is a high res rendering of the sphere scene
 Example teapot scene without reflections
 ![teapot](https://raw.github.com/jkevin1/OptiX/master/flat.png)
 
-NOTES:
-Torus shadow bug  
+NOTES:  
+Release build saves ~1-2ms render time  
+Torus self-intersection bug, probably just avoid using torus, it has much worse fps anyway    
 Debug/Release made no difference, both cpu and gpu seem to be perfcapped?  
 Rotated-Grid Supersampling used to reduce jagged edges, approx 4x more computation  
 3 spheres scene with reflections and 4xMSAA: ~150fps...lots of rays, should be at least close to decent pathtracer w/o MSAA  
