@@ -37,7 +37,7 @@ Uses 100% of gpu, which can lead to driver timeouts since I am using the same GP
 There are A LOT of rays:  
 --For the sample 512x512 image above (8192s4d.png) which took 40.977344 seconds:  
 ----512x512 = 262,144 pixels  
-----262,144 * 8,192 = 2,147,483,648 samples, each with 1-5 calls to rtTrace()  
+----262,144x8,192 = 2,147,483,648 samples, each with 1-5 calls to rtTrace()  
 ----Best case: 2,147,483,648 calls to rtTrace() if every ray hit a light or missed (no diffuse reflections)  
 ----Worst case: 10,737,418,240 calls to rtTrace() if every ray hit a diffuse surface (1st call + 4 maximum ray depth)  
 --Previous tests had the advantage of only spawning new radiance rays if it was a reflective/refractive surface, and only spawning 1 shadow ray.  Direct lighting should add a huge speedup  
