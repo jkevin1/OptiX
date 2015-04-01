@@ -28,6 +28,7 @@ Major improvements must be made to reduce the necessary samples for convergence:
 --Direct lighting  
 --Smarter sampling distributions/weights  
 --Convert algorithm to iterative/accumulative instead of recursive as much as possible  
+--Bidirectional path tracing or photon mapping are options, but not realistic before end of semester  
 --Although not an actual software improvement, I could overclock my GPU  
 Uses 100% of gpu, which can lead to driver timeouts since I am using the same GPU as my OS  
 --Possibly consider tile-based rendering so that OS can render between tiles  
