@@ -7,3 +7,10 @@ Debug/
 *.opensdf
 sponza/
 Release/
+*1d.ppm
+*2d.ppm
+*3d.ppm
+*5d.ppm
+*6d.ppm
+*7d.ppm
+*8d.ppm

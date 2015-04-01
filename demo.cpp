@@ -68,13 +68,13 @@ void init(Scene& scene) {
 	Material mirror = createPhongMaterial(scene.context, Ks, Ka, Kd, exp, ref, opacity);
 
 	//Create torus geometry
-/*	Geometry torusGeom = createGeometry(scene.context, "torus.cu.ptx");
+	Geometry torusGeom = createGeometry(scene.context, "torus.cu.ptx");
 	GeometryInstance& torus = scene.addObject(torusGeom, blue);
 	torus["radii"]->setFloat(1.0f, 0.5f);
-	blue["mode"]->setInt(0);	*/
+	blue["mode"]->setInt(0);	
 
 	//Create sphere scene
-	Geometry sphereGeom = createGeometry(scene.context, "sphere.cu.ptx");
+/*	Geometry sphereGeom = createGeometry(scene.context, "sphere.cu.ptx");
 	GeometryInstance sphere = scene.addObject(sphereGeom, red);
 	sphere["sphere"]->setFloat(1.0f, 0.0f, 1.0f, 0.5f);
 	sphere = scene.addObject(sphereGeom, green);
@@ -85,7 +85,7 @@ void init(Scene& scene) {
 	GeometryInstance plane = scene.addObject(planeGeom, mirror);
 	plane["Po"]->setFloat(0.0f, -0.5f, 0.0f);
 	plane["N"]->setFloat(0.0f, 1.0f, 0.0f);
-	plane["R"]->setFloat(2.0f);
+	plane["R"]->setFloat(2.0f);	*/
 
 	//Create light
 	scene.addLight(make_float3(4.0f, 1.0f, 2.0f), make_float3(0.8f, 0.8f, 0.8f));

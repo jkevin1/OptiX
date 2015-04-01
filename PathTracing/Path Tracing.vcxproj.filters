@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{83531060-f3a9-4cb1-9a96-40c019805ad4}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{81217338-49dc-40c4-b525-4cd9c1a1cfb6}</UniqueIdentifier>
+      <Extensions>cpp</Extensions>
+    </Filter>
+    <Filter Include="CUDA Files">
+      <UniqueIdentifier>{6f1dd160-c025-49c7-80dd-d7331e69c9c8}</UniqueIdentifier>
+      <Extensions>cu</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\OptixScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TestScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\TestScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="cuda\PathTracer.cu">
+      <Filter>CUDA Files</Filter>
+    </CudaCompile>
+    <CudaCompile Include="cuda\Sphere.cu">
+      <Filter>CUDA Files</Filter>
+    </CudaCompile>
+  </ItemGroup>
+</Project>

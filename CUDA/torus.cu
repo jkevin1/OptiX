@@ -14,13 +14,13 @@ rtDeclareVariable(Ray, ray, rtCurrentRay, );
 RT_PROGRAM void intersect(int primIdx) {
 	float3 O = ray.origin;
 	float3 D = ray.direction;
-	float ab = dot(O, D);
-	float aa = dot(O, O);
+	double ab = dot(O, D);
+	double aa = dot(O, O);
 
-	float R2 = radii.x*radii.x;
-	float r2 = radii.y*radii.y;
-	float K = aa - r2 - R2;
-	float constants[5], roots[4];
+	double R2 = radii.x*radii.x;
+	double r2 = radii.y*radii.y;
+	double K = aa - r2 - R2;
+	double constants[5], roots[4];
 	constants[4] = 1.0f;
 	constants[3] = 4*ab;
 	constants[2] = 2*(2*ab*ab + K + 2*R2*D.z*D.z);
@@ -29,12 +29,12 @@ RT_PROGRAM void intersect(int primIdx) {
 	int nroots = solveQuartic(constants, roots);
 
 	int intersection = 0;
-	float min = ray.tmax;
+	double min = ray.tmax;
 	while(nroots--) {
-		float t = roots[nroots];
-		//float x = O.x + t*D.x;
-		//float y = O.y + t*D.y;
-		//float l = radii.x*(M_PI/2 - atan2(y,x));
+		double t = roots[nroots];
+		//double x = O.x + t*D.x;
+		//double y = O.y + t*D.y;
+		//double l = radii.x*(M_PI/2 - atan2(y,x));
 		//if (l >= 0) {
 			if (t < min) {
 				if (rtPotentialIntersection(t)) {
@@ -57,38 +57,38 @@ RT_PROGRAM void intersect(int primIdx) {
 	float3 ro = ray.origin;
 	float3 rd = ray.direction;
 
-	float Ra2 = radii.x*radii.x;
-	float ra2 = radii.y*radii.y;
+	double Ra2 = radii.x*radii.x;
+	double ra2 = radii.y*radii.y;
 	
-	float m = dot(ro,ro);
-	float n = dot(ro,rd);
+	double m = dot(ro,ro);
+	double n = dot(ro,rd);
 		
-	float k = (m - ra2 - Ra2)/2.0;
-	float a = n;
-	float b = n*n + Ra2*rd.z*rd.z + k;
-	float c = k*n + Ra2*ro.z*rd.z;
-	float d = k*k + Ra2*ro.z*ro.z - Ra2*ra2;
+	double k = (m - ra2 - Ra2)/2.0;
+	double a = n;
+	double b = n*n + Ra2*rd.z*rd.z + k;
+	double c = k*n + Ra2*ro.z*rd.z;
+	double d = k*k + Ra2*ro.z*ro.z - Ra2*ra2;
 	
     //----------------------------------
 
-	float p = -3.0*a*a     + 2.0*b;
-	float q =  2.0*a*a*a   - 2.0*a*b   + 2.0*c;
-	float r = -3.0*a*a*a*a + 4.0*a*a*b - 8.0*a*c + 4.0*d;
+	double p = -3.0*a*a     + 2.0*b;
+	double q =  2.0*a*a*a   - 2.0*a*b   + 2.0*c;
+	double r = -3.0*a*a*a*a + 4.0*a*a*b - 8.0*a*c + 4.0*d;
 	p /= 3.0;
 	r /= 3.0;
-	float Q = p*p + r;
-	float R = 3.0*r*p - p*p*p - q*q;
+	double Q = p*p + r;
+	double R = 3.0*r*p - p*p*p - q*q;
 	
-	float h = R*R - Q*Q*Q;
-	float z = 0.0;
+	double h = R*R - Q*Q*Q;
+	double z = 0.0;
 	if( h < 0.0 )
 	{
-		float sQ = sqrt(Q);
+		double sQ = sqrt(Q);
 		z = 2.0*sQ*cos( acos(R/(sQ*Q)) / 3.0 );
 	}
 	else
 	{
-		float sQ = powf( sqrt(h) + abs(R), 1.0/3.0 );
+		double sQ = powf( sqrt(h) + abs(R), 1.0/3.0 );
 		z = abs( sQ + Q/sQ );
 		if (R < 0) z = -z;
 	}
@@ -97,10 +97,10 @@ RT_PROGRAM void intersect(int primIdx) {
 	
     //----------------------------------
 	
-	float d1 = z   - 3.0*p;
-	float d2 = z*z - 3.0*r;
+	double d1 = z   - 3.0*p;
+	double d2 = z*z - 3.0*r;
 
-	if( abs(d1)<1.0e-4 )
+	if( abs(d1)<1.0e-3 )
 	{
 		if( d2<0.0 ) return;
 		d2 = sqrt(d2);
@@ -114,26 +114,26 @@ RT_PROGRAM void intersect(int primIdx) {
 
     //----------------------------------
 	
-	float result = 1e10;
+	double result = 1e10;
 
 	h = d1*d1 - z + d2;
 	if( h>0.0 )
 	{
 		h = sqrt(h);
-		float t1 = -d1 - h - a;
-		float t2 = -d1 + h - a;
-			 if( t1>1.0e-3f ) result=t1;
-		else if( t2>1.0e-3f ) result=t2;
+		double t1 = -d1 - h - a;
+		double t2 = -d1 + h - a;
+			 if( t1>1.0e-3 ) result=t1;
+		else if( t2>1.0e-3 ) result=t2;
 	}
 
 	h = d1*d1 - z - d2;
 	if( h>0.0 )
 	{
 		h = sqrt(h);
-		float t1 = d1 - h - a;
-		float t2 = d1 + h - a;
-		     if( t1>1.0e-3f ) result=fminf(result,t1);
-		else if( t2>1.0e-3f ) result=fminf(result,t2);
+		double t1 = d1 - h - a;
+		double t2 = d1 + h - a;
+		     if( t1>1.0e-3 ) result=fminf(result,t1);
+		else if( t2>1.0e-3 ) result=fminf(result,t2);
 	}
 
 	if (rtPotentialIntersection(result)) {
@@ -145,7 +145,7 @@ RT_PROGRAM void intersect(int primIdx) {
 	}
 }
 
-RT_PROGRAM void bounds(int, float result[6]) {
+RT_PROGRAM void bounds(int, double result[6]) {
 	optix::Aabb* aabb = (optix::Aabb*)result;
 	if (radii.x > 0 || radii.y > 0) {
 		aabb->m_max = make_float3(radii.x + radii.y, radii.x + radii.y, radii.y);
