@@ -10,7 +10,8 @@ i5 4670k @ 4.2GHz
 GTX 770 2GB
 
 Here is a sample of naive path tracing with 8192 samples per pixel  
-![pathtrace](https://raw.github.com/jkevin1/OptiX/master/PathTracing/tests/8192s4d.png)
+![pathtrace](https://raw.github.com/jkevin1/OptiX/master/PathTracing/tests/8192s4d.png)  
+Look at https://github.com/jkevin1/OptiX/blob/master/PathTracing/tests/timing.txt
 
 Here is a sample of a partial port of Kevin Beason's smallpt with 4x128 samples per pixel (http://www.kevinbeason.com/smallpt/)  
 ![smallpt](https://raw.github.com/jkevin1/OptiX/master/PathTracing/SmallPT Port/512s4d.png)
