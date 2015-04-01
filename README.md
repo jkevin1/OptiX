@@ -35,10 +35,10 @@ Uses 100% of gpu, which can lead to driver timeouts since I am using the same GP
 --Will have small performance hit, but will make testing more reliable  
 --Once speed is improved, number of tiles can be reduced or maybe even removed entirely  
 There are A LOT of rays:  
---For the sample 512x512 image above (8192s4d.png)  
-----512x512 = 262144 pixels  
-----262,144 * 8192 = 2,147,483,648 samples  
-----Best case: 2,147,483,648 calls to rtTrace() if every hit is a light/miss (no diffuse reflections)  
-----Worst case: 10,737,418,240 calls to rtTrace() if every hit is a diffuse surface (1st call + 4 maximum ray depth)  
---Previous tests had the advantage of only spawning new rays if it was a reflective/refractive surface, direct lighting should add a huge speedup  
+--For the sample 512x512 image above (8192s4d.png) which took 40.977344 seconds:  
+----512x512 = 262,144 pixels  
+----262,144 * 8,192 = 2,147,483,648 samples, each with 1-5 calls to rtTrace()  
+----Best case: 2,147,483,648 calls to rtTrace() if every ray hit a light or missed (no diffuse reflections)  
+----Worst case: 10,737,418,240 calls to rtTrace() if every ray hit a diffuse surface (1st call + 4 maximum ray depth)  
+--Previous tests had the advantage of only spawning new radiance rays if it was a reflective/refractive surface, and only spawning 1 shadow ray.  Direct lighting should add a huge speedup  
 The SDK has some path tracing examples, they seemed to be running about ~20-30fps for the cornell box scene but they used accumulation buffers to reduce number of samples further
