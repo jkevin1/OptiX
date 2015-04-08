@@ -32,7 +32,7 @@ There are A LOT of rays:
 
 ---------------------------------------NOTES----------------------------------------  
 32 samples per pixel can get just over 6 fps  
-30 fps is around 7-8 samples per pixel currently  
+30 fps is around 7 samples per pixel currently  
 Improvements:  
 --Direct lighting, although its different, more flexible but probably slower  
 --Cosine weighted sampling  
