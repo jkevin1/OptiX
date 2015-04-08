@@ -11,7 +11,7 @@ GTX 770 2GB
 
 Here is a sample of path tracing with 32 samples per pixel and 64 iterations  
 ![pathtrace](https://raw.github.com/jkevin1/OptiX/master/PathTracing/tests/32x64.png)  
-Look at https://github.com/jkevin1/OptiX/blob/master/PathTracing/tests/timing.txt
+Look at https://github.com/jkevin1/OptiX/blob/master/PathTracing/tests/times.txt
 
 Here is a sample of a partial port of Kevin Beason's smallpt with 4x128 samples per pixel (http://www.kevinbeason.com/smallpt/)  
 ![smallpt](https://raw.github.com/jkevin1/OptiX/master/PathTracing/SmallPT Port/512s4d.png)
