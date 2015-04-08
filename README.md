@@ -39,7 +39,7 @@ Improvements:
 --Accumulation buffer, allows for multiple passes to improve effective fps  
 --Minor optimizations and cleaner code  
 TODO:  
---Improve random to avoid extreme noise  
+--Improve prng to avoid extreme noise  
 --Render to a window instead of image with interactivity  
 --Noise reduction, probably in shader, not sure how effective it can be  
 --Optimizations  
