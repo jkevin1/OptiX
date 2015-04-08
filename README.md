@@ -9,8 +9,8 @@ i5 4670k @ 4.2GHz
 16gb 1866MHz ram  
 GTX 770 2GB
 
-Here is a sample of naive path tracing with 8192 samples per pixel  
-![pathtrace](https://raw.github.com/jkevin1/OptiX/master/PathTracing/tests/8192s4d.png)  
+Here is a sample of path tracing with 32 samples per pixel and 64 iterations  
+![pathtrace](https://raw.github.com/jkevin1/OptiX/master/PathTracing/tests/32x64.png)  
 Look at https://github.com/jkevin1/OptiX/blob/master/PathTracing/tests/timing.txt
 
 Here is a sample of a partial port of Kevin Beason's smallpt with 4x128 samples per pixel (http://www.kevinbeason.com/smallpt/)  
@@ -31,7 +31,7 @@ There are A LOT of rays:
 --Previous tests had the advantage of only spawning new radiance rays if it was a reflective/refractive surface, and only spawning 1 shadow ray.
 
 ---------------------------------------NOTES----------------------------------------  
-32 samples can get just over 6 fps  
+32 samples per pixel can get just over 6 fps  
 30 fps is around 7-8 samples per pixel currently  
 Improvements:  
 --Direct lighting, although its different, more flexible but probably slower  
