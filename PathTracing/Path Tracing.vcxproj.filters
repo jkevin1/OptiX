@@ -11,7 +11,7 @@
     </Filter>
     <Filter Include="CUDA Files">
       <UniqueIdentifier>{6f1dd160-c025-49c7-80dd-d7331e69c9c8}</UniqueIdentifier>
-      <Extensions>cu</Extensions>
+      <Extensions>cu;cuh</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -19,6 +19,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\TestScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SphereLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -13,6 +13,16 @@ TestScene::TestScene(unsigned width, unsigned height) : OptixScene(width, height
 	Buffer image = context->createBuffer(RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_FLOAT4, width, height);
 	context["image"]->setBuffer(image);
 	initScene();
+	Buffer lightBuffer = context->createBuffer(RT_BUFFER_INPUT);
+	lightBuffer->setFormat(RT_FORMAT_USER);
+	lightBuffer->setElementSize(sizeof(SphereLight));
+	lightBuffer->setSize(lights.size());
+	memcpy(lightBuffer->map(), &lights[0], sizeof(SphereLight) * lights.size());
+	lightBuffer->unmap();
+	context["lights"]->setBuffer(lightBuffer);
+	printf("Compiling OptiX Kernel\n");
+	context->validate();
+	context->compile();
 }
 
 TestScene::~TestScene() {
@@ -28,7 +38,7 @@ inline unsigned char toInt(float x) {
 	return int((x < 0 ? 0 : (x > 1 ? 1 : x)) * 255 + .5f);
 }
 
-void TestScene::saveScreenshot(const char* filename) {
+void TestScene::saveScreenshot(const char* filename, float iterations) {
 	//printf("Saving Screenshot: %s\n", filename);
 	Buffer buffer = context["image"]->getBuffer();
 	unsigned width, height;
@@ -39,6 +49,7 @@ void TestScene::saveScreenshot(const char* filename) {
 	for (unsigned y = 0; y < height; y++) {
 		for (unsigned x = 0; x < width; x++) {
 			float4 c = data[(height - y - 1u) * width + x];
+			c /= iterations;
 			fprintf(file, "%d %d %d ", toInt(c.x), toInt(c.y), toInt(c.z));
 		}
 	}
@@ -87,6 +98,11 @@ void TestScene::initScene() {
 	GeometryInstance light = createObject(geometry, material, make_float3(16, 16, 16), make_float3(0, 0, 0));
 	light["radius"]->setFloat(2.0f);
 	light["position"]->setFloat(0.0f, 8.0f, 0.0f);
+	SphereLight emitter;
+	emitter.emission = make_float3(16, 16, 16);
+	emitter.radius = 2.0f;
+	emitter.position = make_float3(0, 8, 0);
+	lights.push_back(emitter);
 	GeometryGroup group = context->createGeometryGroup();
 	group->setChildCount(5u);	// 4 Elements
 	group->setChild(0, left);
@@ -125,4 +141,8 @@ GeometryInstance TestScene::createObject(Geometry geom, Material mat, float3 emi
 	instance["emission"]->setFloat(emission);
 	instance["color"]->setFloat(color);
 	return instance;
+}
+
+void TestScene::setFrame(int frame) {
+	context["frame"]->setInt(frame);
 }

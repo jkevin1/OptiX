@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OptixScene.h"
+#include "SphereLight.h"
 #include <optixu/optixpp_namespace.h>
 #include <optixu/optixu_math_namespace.h>
 
@@ -12,12 +13,14 @@ public:
 	virtual ~TestScene();
 
 	virtual void render();
-	virtual void saveScreenshot(const char* filename);
+	virtual void saveScreenshot(const char* filename, float iterations = 1.0f);
 
 	void setNumSamples(int samples);
 	void setMaxDepth(int depth);
+	void setFrame(int frame);
 private:
 	Context context;
+	std::vector<SphereLight> lights;
 	void initScene();
 	Geometry loadGeometry(const char* ptx);
 	GeometryInstance createObject(Geometry geom, Material mat, float3 emission, float3 color);

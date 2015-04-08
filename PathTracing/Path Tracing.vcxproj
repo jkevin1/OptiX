@@ -20,7 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\OptixScene.h" />
+    <ClInclude Include="include\SphereLight.h" />
     <ClInclude Include="include\TestScene.h" />
+    <ClInclude Include="include\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Test.cpp" />

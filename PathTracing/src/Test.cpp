@@ -3,6 +3,10 @@
 
 #pragma warning( disable : 4996 )
 
+#define QUAL_ITERATIONS 100
+#define TIME_ITERATIONS 24
+#define MAX_SAMPLES 128
+
 using namespace std::chrono;
 
 //Test
@@ -14,28 +18,36 @@ int main(int argc, char* argv[]) {
 		scene.setMaxDepth(1);
 		scene.render();
 
-		FILE* timing = fopen("tests/timing.txt", "w");
-		fprintf(timing, "samples\tdepth\ttime\n");
 
-		char filename[64];
-		int samples = 1;
-		for (int i = 0; i < 14; i++) {
-			scene.setNumSamples(samples);
-			printf("\rRunning tests with %d samples\n", samples);
-			for (int depth = 2; depth < 8; depth++) {
-				printf("\r\t%d max depth", depth);
-				scene.setMaxDepth(depth);
-				auto time = high_resolution_clock::now();
-				scene.render();
-				duration<double> value = duration_cast<duration<double>>(high_resolution_clock::now() - time);
-				fprintf(timing, "%7d\t%5d\t%f seconds\n", samples, depth, value.count());
-				sprintf(filename, "tests/%ds%dd.ppm", samples, depth);
-				scene.saveScreenshot(filename);
-			}
-			samples *= 2;
+		printf("Image quality test\n");
+		char filename[128];
+		scene.setNumSamples(32);
+		scene.setMaxDepth(4);
+		for (int i = 1; i <= QUAL_ITERATIONS; i++) {
+			sprintf(filename, "tests/32x%d.ppm", i);
+			scene.setFrame(i);
+			scene.render();
+			scene.saveScreenshot(filename, i);
+			printf("\r%f%%", 100.0f * float(i) / QUAL_ITERATIONS);
 		}
 
-		fclose(timing);
+		printf("\nImage time test\n");
+		FILE* out = fopen("tests/times.txt", "w");
+		for (int s = 1; s < MAX_SAMPLES; s++) {
+			scene.setNumSamples(s);
+			auto time = high_resolution_clock::now();
+			for (int i = 0; i < TIME_ITERATIONS; i++) {
+				scene.setFrame(i);
+				scene.render();
+			}
+			duration<double> value = duration_cast<duration<double>>(high_resolution_clock::now() - time);
+			fprintf(out, "%4d samples: %f sec\n", s, value.count() / TIME_ITERATIONS);
+			printf("\r%f%%", 100.0f * float(s+1) / MAX_SAMPLES);
+		}
+		printf("\n");
+		fclose(out);
+
+
 	} catch (Exception& e) {
 		fprintf(stderr, "%s\n", e.getErrorString().c_str());
 		return 1;

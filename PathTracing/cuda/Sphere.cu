@@ -19,7 +19,7 @@ RT_PROGRAM void intersect(int primIdx) {
 	float3 O = ray.origin;
 	float3 D = ray.direction;
 	float3 C = position;
-
+	
 	float a = dot(D, D);
 	float b = 2.0f * dot(D, O - C);
 	float c = dot(O - C, O - C) - (radius * radius);
