@@ -11,8 +11,9 @@ rtDeclareVariable(float3, camOrigin, , );
 rtDeclareVariable(float3, camDirection, , );
 
 static __device__ __inline__ float3 radiance(float3 o, float3 d, int depth, unsigned& seed) {
-	return make_float3(randFloat(seed), randFloat(seed), randFloat(seed));
+	//return make_float3(randFloat(seed), randFloat(seed), randFloat(seed));
 	RayData payload;
+	payload.E = 1;
 	payload.depth = depth;
 	payload.seed = seed;
 	optix::Ray ray = optix::make_Ray(o, d, 0, DEFAULT_MIN, DEFAULT_MAX);
@@ -41,9 +42,9 @@ RT_PROGRAM void trace() {
 				float r2 = 2 * randFloat(seed), dy = r2 < 1 ? sqrt(r2) - 1 : 1 - sqrt(2 - r2);
 				float3 d =	cx*(((sx + 0.5f + dx) / 2 + index.x) / dim.x - 0.5f) +
 							cy*(((sy + 0.5f + dy) / 2 + index.y) / dim.y - 0.5f) + camDirection;
-				r += radiance(camOrigin + d * 140, normalize(d), 0, seed) * (1.0f / samples);
+				r += radiance(camOrigin + d * 140, normalize(d), 0, seed);
 			} // Camera rays are pushed ^^^^^ forward to start in interior
-			result += clamp(r, 0.0f, 1.0f);
+			result += clamp(r / samples, 0.0f, 1.0f);
 		}
 	}
 	output[index] = convertColor(result * 0.25f);

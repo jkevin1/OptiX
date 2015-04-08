@@ -1,4 +1,5 @@
 #include "CornellBox.h"
+#include "SphereLight.h"
 #include <stdio.h>
 
 #define DEFAULT_MAX_DEPTH 1
@@ -34,6 +35,8 @@ void CornellBox::setTarget(unsigned vbo) {	// THIS MUST BE CALLED
 void CornellBox::render() {
 	context->launch(0, width, height);
 }
+
+static int id = 0;
 
 void CornellBox::initScene() {
 	printf("Loading Geometry\n");
@@ -71,11 +74,26 @@ void CornellBox::initScene() {
 	group->setChild(5, createPlane(Vec(100, 0, 100), Vec(50, 81.6, 81.6), Vec(0, -1, 0), Vec(), Vec(.75, .75, .75), diff));	// Top
 	group->setChild(6, createSphere(16.5f, Vec(27, 16.5, 47), Vec(), Vec(1, 1, 1)*0.999f, spec));			// Mirror
 	group->setChild(7, createSphere(16.5f, Vec(73, 16.5, 78), Vec(), Vec(1, 1, 1)*0.999f, refr));			// Glass
-	group->setChild(8, createSphere(600.0f, Vec(50, 681.6 - .27, 81.6), Vec(12, 12, 12), Vec(), diff));		// Light
+	group->setChild(8, createSphere(1.5f, Vec(50, 81.6 - 16.5, 81.6), Vec(4, 4, 4) * 100, Vec(), diff));		// Light
 	group->setAcceleration(context->createAcceleration("Bvh", "BvhSingle"));	// Maybe pointless...	
+
+	SphereLight light;
+	light.e = Vec(4, 4, 4) * 100;
+	light.id = id;
+	light.p = Vec(50, 81.6 - 16.5, 81.6);
+	light.r = 1.5f;
+
+	Buffer lightBuffer = context->createBuffer(RT_BUFFER_INPUT);
+	lightBuffer->setFormat(RT_FORMAT_USER);
+	lightBuffer->setElementSize(sizeof(SphereLight));
+	lightBuffer->setSize(1);
+	memcpy(lightBuffer->map(), &light, sizeof(SphereLight));
+	lightBuffer->unmap();
+	context["lights"]->setBuffer(lightBuffer);
+
 	context["objects"]->set(group);
-	context["maxDepth"]->setInt(8);
-	context["samples"]->setInt(1);
+	context["maxDepth"]->setInt(5);
+	context["samples"]->setInt(4);
 	context["camOrigin"]->setFloat(50.0f, 52.0f, 295.6f);
 	context["camDirection"]->setFloat(normalize(make_float3(0.0f, -0.042612f, -1.0f)));	
 
@@ -92,6 +110,7 @@ void CornellBox::initScene() {
 	context["camDirection"]->setFloat(normalize(Vec(0, 3, 0) - Vec(0, 2, -8)));	*/
 }
 
+
 GeometryInstance CornellBox::createSphere(float r, float3 p, float3 e, float3 c, Program type) {
 	Material m = context->createMaterial();
 	m->setClosestHitProgram(0, type);
@@ -103,6 +122,7 @@ GeometryInstance CornellBox::createSphere(float r, float3 p, float3 e, float3 c,
 	instance->setMaterial(0, m);
 	instance["radius"]->setFloat(r);
 	instance["position"]->setFloat(p);
+	instance["objID"]->setInt(++id);
 	return instance;
 }
 
@@ -118,5 +138,6 @@ GeometryInstance CornellBox::createPlane(float3 r, float3 p, float3 n, float3 e,
 	instance["Po"]->setFloat(p);
 	instance["N"]->setFloat(n);
 	instance["R"]->setFloat(r);
+	instance["objID"]->setInt(++id);
 	return instance;
 }

@@ -6,10 +6,12 @@ using namespace optix;
 
 rtDeclareVariable(float, radius, , );
 rtDeclareVariable(float3, position, , );
+rtDeclareVariable(int, objID, , );
 
 rtDeclareVariable(Ray, ray, rtCurrentRay, );
 
 rtDeclareVariable(float3, n, attribute normal, );
+rtDeclareVariable(int, id, attribute ID, );
 
 RT_PROGRAM void intersect(int primIdx) {
 	float3 O = ray.origin;
@@ -32,7 +34,7 @@ RT_PROGRAM void intersect(int primIdx) {
 		if (rtPotentialIntersection(result)) {
 			float3 pos = O + result*D;
 			n = normalize(pos - C);
-			// TODO: pass other attributes to shader
+			id = objID;
 			rtReportIntersection(0);
 		}
 	}

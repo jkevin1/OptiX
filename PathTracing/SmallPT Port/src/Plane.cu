@@ -7,10 +7,12 @@ using namespace optix;
 rtDeclareVariable(float3, Po, , );
 rtDeclareVariable(float3, N, , );
 rtDeclareVariable(float3, R, , );
+rtDeclareVariable(int, objID, , );
 
 rtDeclareVariable(Ray, ray, rtCurrentRay, );
 
 rtDeclareVariable(float3, n, attribute normal, );
+rtDeclareVariable(int, id, attribute ID, );
 
 RT_PROGRAM void intersect(int primIdx) {
 	float3 Lo = ray.origin;
@@ -18,6 +20,7 @@ RT_PROGRAM void intersect(int primIdx) {
 	float t = dot(Po - Lo, N) / dot(L, N);
 	if (rtPotentialIntersection(t)) {
 		n = N;
+		id = objID;
 		rtReportIntersection(0);
 	}
 }

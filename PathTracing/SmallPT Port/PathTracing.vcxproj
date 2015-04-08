@@ -35,6 +35,7 @@
     <ClInclude Include="include\OptixScene.h" />
     <ClInclude Include="include\OptixViewer.h" />
     <ClInclude Include="include\RayData.h" />
+    <ClInclude Include="include\SphereLight.h" />
     <ClInclude Include="include\TestScene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

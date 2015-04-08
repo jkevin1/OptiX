@@ -8,7 +8,7 @@ using namespace optix;
 
 struct RayData {
 	float3 result;
-	float importance;	//used?
+	int E, id;	//used?
 	int depth;
 	unsigned seed;
 	//curand_uniform

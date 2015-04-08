@@ -54,5 +54,8 @@
     <ClInclude Include="include\TestScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\SphereLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
