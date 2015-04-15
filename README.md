@@ -24,29 +24,17 @@ Example teapot scene without reflections
 ![teapot](https://raw.github.com/jkevin1/OptiX/master/flat.png)
 
 There are A LOT of rays:  
---For the sample 512x512 image above (frame1.png):  
+--For the sample 512x512 image above (frame1.png) with 6 spp  
 ----512x512 = 262,144 pixels  
-----262,144x8,192 = 2,147,483,648 samples, each with 1-5 calls to rtTrace()  
-----Best case: 2,147,483,648 calls to rtTrace() if every ray hit a light or missed (no diffuse reflections)  
-----Worst case: 10,737,418,240 calls to rtTrace() if every ray hit a diffuse surface (1st call + 4 maximum ray depth)  
+----1,572,864 samples, each with 1-5 calls to rtTrace()  
+----Best case: 1,572,864 calls to rtTrace() if every ray hit a light or missed (no diffuse reflections)  
+----Worst case: 7,864,320 calls to rtTrace() if every ray hit a diffuse surface (1st call + 4 maximum ray depth)  
+----Each ray may be tested with up to 9 ray-sphere intersections, not counting the lighting equations  
 --Previous tests had the advantage of only spawning new radiance rays if it was a reflective/refractive surface, and only spawning 1 shadow ray.
 
 ---------------------------------------NOTES----------------------------------------  
-32 samples per pixel can get just over 6 fps  
-30 fps is around 7 samples per pixel currently  
 Improvements:  
---Direct lighting, although its different, more flexible but probably slower  
---Cosine weighted sampling  
---Accumulation buffer, allows for multiple passes to improve effective fps  
---Minor optimizations and cleaner code  
-TODO:  
---Improve prng to avoid extreme noise  
---Render to a window instead of image with interactivity  
---Noise reduction, probably in shader, not sure how effective it can be  
---Optimizations  
---Write document about process  
---Crunch time with 2 other projects  
-Uses 100% of gpu, which can lead to driver timeouts since I am using the same GPU as my OS  
---Tiles didn't seem to help much without there being some break between them  
---Using less samples per call and accumulation seems like a better option  
-The cornell box scene in the SDK that uses mis gets around 6 fps as well, but has less noise
+Added more materials to make a more complex scene, shows that caustics are supported  
+Slight optimizations, still needs a lot more work  
+Simple blur algorithm in optix, could be moved to opengl, might be faster, also edge detection needs to be finalized  
+Reduction of fireflies, still could be improved    
