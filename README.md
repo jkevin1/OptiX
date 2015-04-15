@@ -9,9 +9,10 @@ i5 4670k @ 4.2GHz
 16gb 1866MHz ram  
 GTX 770 2GB
 
-Here is a sample of path tracing with 32 samples per pixel and 64 iterations  
-![pathtrace](https://raw.github.com/jkevin1/OptiX/master/PathTracing/tests/32x64.png)  
-Look at https://github.com/jkevin1/OptiX/blob/master/PathTracing/tests/times.txt
+Here is a sample of path tracing with 6 samples per pixel and a maximum depth of 4 after one second (24 frames)  
+![pathtrace](https://raw.github.com/jkevin1/OptiX/master/PathTracing/tests/frame24.png)  
+Here is the first frame  
+![first](https://raw.github.com/jkevin1/OptiX/master/PathTracing/tests/frame1.png)
 
 Here is a sample of a partial port of Kevin Beason's smallpt with 4x128 samples per pixel (http://www.kevinbeason.com/smallpt/)  
 ![smallpt](https://raw.github.com/jkevin1/OptiX/master/PathTracing/SmallPT Port/512s4d.png)
@@ -23,7 +24,7 @@ Example teapot scene without reflections
 ![teapot](https://raw.github.com/jkevin1/OptiX/master/flat.png)
 
 There are A LOT of rays:  
---For the sample 512x512 image above (8192s4d.png) which took 40.977344 seconds:  
+--For the sample 512x512 image above (frame1.png):  
 ----512x512 = 262,144 pixels  
 ----262,144x8,192 = 2,147,483,648 samples, each with 1-5 calls to rtTrace()  
 ----Best case: 2,147,483,648 calls to rtTrace() if every ray hit a light or missed (no diffuse reflections)  
