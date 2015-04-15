@@ -30,8 +30,7 @@ static __device__ __inline__ float2 uniformSampleDisk(unsigned& seed) {
 	const float r = sqrtf(u1);
 	const float theta = 2.0f * M_PI * rand(seed);
 
-	const float x = r * cosf(theta);
-	const float y = r * sinf(theta);
+	return make_float2(r * cosf(theta), r * sinf(theta));
 }
 
 // Generate a random sample based on the input normal with a cosine distribution
@@ -46,5 +45,14 @@ static __device__ __inline__ float3 cosineSample(const float3& normal, unsigned&
 
 	float3 tangent = normalize(cross(normal, make_float3(0, 1, normal.z < 0 ? 1 : -1)));
 	float3 binormal = normalize(cross(normal, tangent));
+
 	return (x * tangent) + (z * normal) + (y * binormal);
+}
+
+static __device__ __inline__ float gamma(float v) {
+	return powf(v, 1.0f / 3.0f);
+}
+
+static __device__ __inline__ float3 correct(const float3& c) {
+	return make_float3(gamma(c.x), gamma(c.y), gamma(c.z));
 }

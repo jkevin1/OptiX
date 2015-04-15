@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\OptixScene.h" />
+    <ClInclude Include="include\OptixViewer.h" />
     <ClInclude Include="include\SphereLight.h" />
     <ClInclude Include="include\TestScene.h" />
     <ClInclude Include="include\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\OptixViewer.cpp" />
     <ClCompile Include="src\Test.cpp" />
     <ClCompile Include="src\TestScene.cpp" />
   </ItemGroup>
@@ -82,13 +84,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(CUDA_PATH_V6_5)\include;$(OPTIXDIR)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(GLEWDIR)\include;$(GLFWDIR)\include;$(CUDA_PATH_V6_5)\include;$(OPTIXDIR)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(CUDA_PATH_V6_5)\include;$(OPTIXDIR)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(GLEWDIR)\include;$(GLFWDIR)\include;$(CUDA_PATH_V6_5)\include;$(OPTIXDIR)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

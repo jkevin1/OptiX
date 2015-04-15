@@ -27,12 +27,18 @@
     <ClInclude Include="include\SphereLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\OptixViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TestScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OptixViewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,18 +9,16 @@ using namespace optix;
 
 class TestScene : OptixScene {
 public:
-	TestScene(unsigned width, unsigned height);
+	TestScene(unsigned width, unsigned height, int samples, int maxDepth);
 	virtual ~TestScene();
 
 	virtual void render();
 	virtual void saveScreenshot(const char* filename, float iterations = 1.0f);
 
-	void setNumSamples(int samples);
-	void setMaxDepth(int depth);
-	void setFrame(int frame);
 private:
 	Context context;
-	std::vector<SphereLight> lights;
+	int frame, samples, maxDepth;
+	std::vector<PotentialLight> lights;
 	void initScene();
 	Geometry loadGeometry(const char* ptx);
 	GeometryInstance createObject(Geometry geom, Material mat, float3 emission, float3 color);

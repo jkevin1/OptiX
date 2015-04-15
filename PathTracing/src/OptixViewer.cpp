@@ -4,7 +4,6 @@
 #include <GLFW\glfw3.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <thread>
 
 static void glfwErrorCallback(int error, const char* description) {
 	fprintf(stderr, "GLFW error: %s\n", description);
@@ -31,18 +30,6 @@ OptixViewer::OptixViewer(OptixScene* scene, const char* title, bool vsync) : sce
 
 	glfwSetWindowUserPointer(window, scene);
 	// TODO: callbacks
-
-	
-}
-
-
-OptixViewer::~OptixViewer() {
-	glfwTerminate();
-}
-
-void renderThread(GLFWwindow* window) {
-	OptixScene* scene = (OptixScene*)glfwGetWindowUserPointer(window);
-
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(0);
 
@@ -78,6 +65,21 @@ void renderThread(GLFWwindow* window) {
 
 	scene->setTarget(vbo);
 
+	
+	
+}
+
+OptixViewer::~OptixViewer() {
+	glfwTerminate();
+}
+
+void renderThread(GLFWwindow* window) {
+	OptixScene* scene = (OptixScene*)glfwGetWindowUserPointer(window);
+
+	
+}
+
+void OptixViewer::run() {
 	while (!glfwWindowShouldClose(window)) {
 		//TODO update
 		scene->render();
@@ -85,7 +87,7 @@ void renderThread(GLFWwindow* window) {
 		glBindTexture(GL_TEXTURE_2D, tex);
 		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, vbo);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, scene->width, scene->height, 0, GL_BGRA, GL_UNSIGNED_BYTE, 0);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, scene->width, scene->height, 0, GL_BGRA, GL_UNSIGNED_BYTE, 0);
 		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 
 		glEnable(GL_TEXTURE_2D);
@@ -106,14 +108,4 @@ void renderThread(GLFWwindow* window) {
 		glfwSwapBuffers(window);
 		//glfwPollEvents();
 	}
-}
-
-void OptixViewer::run() {
-	std::thread renderer(renderThread, window);
-
-	while (!glfwWindowShouldClose(window)) {
-		glfwWaitEvents();
-	}
-
-	renderer.join();
 }
