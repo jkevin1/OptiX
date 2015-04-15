@@ -35,6 +35,6 @@ There are A LOT of rays:
 ---------------------------------------NOTES----------------------------------------  
 Improvements:  
 Added more materials to make a more complex scene, shows that caustics are supported  
-Slight optimizations, still needs a lot more work  
+Slight optimizations, still could be improved  
 Simple blur algorithm in optix, could be moved to opengl, might be faster, also edge detection needs to be finalized  
 Reduction of fireflies, still could be improved    
