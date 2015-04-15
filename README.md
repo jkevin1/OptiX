@@ -11,7 +11,7 @@ GTX 770 2GB
 
 Here is a sample of path tracing with 6 samples per pixel and a maximum depth of 4 after one second (24 frames)  
 ![pathtrace](https://raw.github.com/jkevin1/OptiX/master/PathTracing/tests/frame24.png)  
-Here is the first frame  
+Here is the first frame, just shy of 24fps, needs optimization, better hardware  
 ![first](https://raw.github.com/jkevin1/OptiX/master/PathTracing/tests/frame1.png)
 
 Here is a sample of a partial port of Kevin Beason's smallpt with 4x128 samples per pixel (http://www.kevinbeason.com/smallpt/)  
