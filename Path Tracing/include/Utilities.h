@@ -50,7 +50,7 @@ static __device__ __inline__ float3 cosineSample(const float3& normal, unsigned&
 }
 
 static __device__ __inline__ float gamma(float v) {
-	return powf(v, 1.0f / 3.0f);
+	return powf(v, 1.0f / 2.2f);
 }
 
 static __device__ __inline__ float3 correct(const float3& c) {

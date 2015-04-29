@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Shaders.h" />
     <ClInclude Include="include\OptixScene.h" />
     <ClInclude Include="include\OptixViewer.h" />
     <ClInclude Include="include\SphereLight.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="include\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Shaders.cpp" />
     <ClCompile Include="src\OptixViewer.cpp" />
     <ClCompile Include="src\Test.cpp" />
     <ClCompile Include="src\TestScene.cpp" />

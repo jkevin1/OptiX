@@ -14,5 +14,6 @@ public:
 	virtual void keyPressed(int key) { }
 	virtual void keyReleased(int key) { }
 	virtual void mousePressed(int button) { }
+	virtual void mouseReleased(int button) { }
 	virtual void mouseMoved(double x, double y, double dx, double dy) { }
 };

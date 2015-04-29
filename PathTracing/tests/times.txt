@@ -1,1 +1,0 @@
-[512x512|6 samples|4 depth]: 0.044362 sec

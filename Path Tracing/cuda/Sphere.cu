@@ -8,12 +8,14 @@ rtDeclareVariable(float, radius, , );
 rtDeclareVariable(float3, position, , );
 rtDeclareVariable(float3, emission, , );
 rtDeclareVariable(float3, color, , );
+rtDeclareVariable(int, gID, , );
 
 rtDeclareVariable(Ray, ray, rtCurrentRay, );
 
 rtDeclareVariable(float3, n, attribute normal, );
 rtDeclareVariable(float3, e, attribute emission, );
 rtDeclareVariable(float3, f, attribute color, );
+rtDeclareVariable(int, id, attribute ID, );
 
 RT_PROGRAM void intersect(int primIdx) {
 	float3 O = ray.origin;
@@ -38,6 +40,7 @@ RT_PROGRAM void intersect(int primIdx) {
 			n = normalize(pos - C);
 			e = emission;
 			f = color;
+			id = gID;
 			rtReportIntersection(0);
 		}
 	}

@@ -9,15 +9,8 @@ struct RayData {
 	float3 result;
 	unsigned depth;
 	unsigned* seed;
+	int id;
 };
-
-/* TODO:
- * Consider changing image to float3
- * Comment thoroughly
- * Clean up path tracing code
- * Add reflections and refractions
- * ...
- */
 
 // Buffers to store different components of the image
 rtBuffer<float3, 2> accum;	// Accumulation buffer for color
@@ -41,42 +34,24 @@ rtDeclareVariable(int, frame, , );
 RT_PROGRAM void pathTrace() {
 	float2 invDim2 = 2.0 / make_float2(dim);
 	float3 acc = make_float3(0.0f, 0.0f, 0.0f);
-	unsigned seed = createSeed(pixel.y*dim.x + pixel.x, frame);	// Consider moving out of loop
+	unsigned seed = createSeed(pixel.y*dim.x + pixel.x, frame);
+	RayData new_prd;
+	new_prd.seed = &seed;
+	Ray ray = make_Ray(eye, acc, 0, T_MIN, T_MAX);	// acc is 0,0,0
 	for (int sample = 0; sample < samples; sample++) {
 		float2 point = (make_float2(pixel) + make_float2(rand(seed), rand(seed))) * invDim2 - 1.0f;	// Random pixel in scene
-		float3 dir = normalize(point.x * U + point.y * V + W);
-		Ray ray = make_Ray(eye, dir, 0, T_MIN, T_MAX);
-		RayData new_prd;
+		ray.direction = normalize(point.x * U + point.y * V + W);
 		new_prd.depth = 0;
-		new_prd.seed = &seed;
 		rtTrace(objects, ray, new_prd);
-		acc += new_prd.result;
+		float luma = luminance(new_prd.result);// *0.5f;
+		acc += new_prd.result / (1.0f + luma);
 	}
-	if (frame <= 1) accum[pixel] = make_float3(0.0f, 0.0f, 0.0f);
-	acc /= float(samples);
-	float luma = luminance(acc);
-	acc /= 1.0f + luma;
-	accum[pixel] += acc;
-	float weights[] = { 0.1f, 0.2f, 0.4f, 0.2f, 0.1f };
-	float3 sum = make_float3(0.0f, 0.0f, 0.0f);
-	float div = 0.0f;
-	for (int i = -2; i <= 2; i++) {
-		int2 pos = make_int2(pixel.x + i, pixel.y);
-		if (pos.x >= 0 && pos.y >= 0 && pos.x < dim.x &&  pos.y < dim.y) {
-			sum += accum[make_uint2(pos.x, pos.y)] * weights[i + 2];
-			div += weights[i + 2];
-		}
-		pos = make_int2(pixel.x, pixel.y + i);
-		if (pos.x >= 0 && pos.y >= 0 && pos.x < dim.x &&  pos.y < dim.y) {
-			sum += accum[make_uint2(pos.x, pos.y)] * weights[i + 2];
-			div += weights[i + 2];
-		}
-	}
-	float3 result = correct(clamp(sum / div / float(frame), 0.0f, 1.0f));
-	image[pixel] = make_uchar4( (unsigned char)(result.x*255 + 0.5f),
-								(unsigned char)(result.y*255 + 0.5f), 
-								(unsigned char)(result.z*255 + 0.5f), 
-								0);		// Replace 0 with object id
+	accum[pixel] = (frame <= 1) ? acc / float(samples) : accum[pixel] + acc / float(samples);
+	float3 result = correct(clamp(accum[pixel] / float(frame), 0.0f, 1.0f));
+	image[pixel] = make_uchar4( (unsigned char)(result.x * 255 + 0.5f),
+								(unsigned char)(result.y * 255 + 0.5f),
+								(unsigned char)(result.z * 255 + 0.5f),
+								(unsigned char)new_prd.id);
 }
 
 RT_PROGRAM void exception() {
@@ -92,9 +67,11 @@ rtDeclareVariable(Ray, current_ray, rtCurrentRay, );
 rtDeclareVariable(float3, n, attribute normal, );
 rtDeclareVariable(float3, e, attribute emission, );
 rtDeclareVariable(float3, f, attribute color, );
+rtDeclareVariable(int, id, attribute ID, );
 
 RT_PROGRAM void miss() {
 	current_prd.result = make_float3(0.0f, 0.0f, 0.0f);
+	current_prd.id = 0;
 }
 
 RT_PROGRAM void diffuse() {
@@ -113,21 +90,24 @@ RT_PROGRAM void diffuse() {
 			float ndl = dot(n, sample - pos);
 			if (ndl > 0) {
 				dir = sample - pos;
-				weight = /*ndl **/ 0.5f * (lights[i].radius * lights[i].radius) / dot(ln, ln) / DL_CHANCE;	//proportional area of  light over hemisphere * BRDF
+				// Weight proportionally to area of  light over hemisphere * BRDF
+				weight = 0.5f * (lights[i].radius * lights[i].radius) / dot(ln, ln) / DL_CHANCE;	
 			}
 		}	
 
+		// Recurse
 		Ray ray = make_Ray(pos, normalize(dir), 0, T_MIN, T_MAX);
 		RayData new_prd;
 		new_prd.depth = current_prd.depth + 1;
 		new_prd.seed = current_prd.seed;
 		rtTrace(objects, ray, new_prd);
 
-		// Apply the Rendering Equation here.
 		current_prd.result = e + f * (weight * new_prd.result);
+		if (current_prd.depth == 0) current_prd.id = id;
 		return;
 	}
 	current_prd.result = e;
+	current_prd.id = id;
 }
 
 RT_PROGRAM void reflect() {
@@ -143,6 +123,7 @@ RT_PROGRAM void reflect() {
 
 		// Apply the Rendering Equation here.
 		current_prd.result = e + (f * new_prd.result);
+		if (current_prd.depth == 0) current_prd.id = id;
 		return;
 	}
 	current_prd.result = e;
@@ -164,7 +145,9 @@ RT_PROGRAM void refract() {
 
 		// Apply the Rendering Equation here.
 		current_prd.result = e + (f * new_prd.result);
+		if (current_prd.depth == 0) current_prd.id = id;
 		return;
 	}
 	current_prd.result = e;
+	current_prd.id = id;
 }

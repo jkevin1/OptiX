@@ -13,7 +13,7 @@ TestScene::TestScene(unsigned width, unsigned height, int samples, int maxDepth)
 	printf("Allocating Buffers: %dx%d\n", width, height);
 	Buffer accum = context->createBuffer(RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_FLOAT3, width, height);
 	context["accum"]->setBuffer(accum);
-	Buffer image = context->createBuffer(RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_BYTE4, width, height);
+	Buffer image = context->createBuffer(RT_BUFFER_OUTPUT, RT_FORMAT_BYTE4, width, height);
 	context["image"]->setBuffer(image);
 
 	initScene();
@@ -26,6 +26,7 @@ TestScene::TestScene(unsigned width, unsigned height, int samples, int maxDepth)
 	lightBuffer->unmap();
 	context["lights"]->setBuffer(lightBuffer);
 
+	printf("Initializing Scene with %d samples and maximum depth %d\n", samples, maxDepth);
 	this->samples = samples;
 	this->maxDepth = maxDepth;
 	this->frame = 0;
@@ -48,7 +49,17 @@ void TestScene::render() {
 	context->launch(0, width, height);
 }
 
-void TestScene::saveScreenshot(const char* filename, float iterations) {
+void TestScene::update(double time) {
+	if (!paused) {
+		angle += float(time);
+		matte["position"]->setFloat(4 * cosf(angle / 3), 2.0f, 4 * sinf(2 * angle / 3));
+		refl["position"]->setFloat(5 * cosf(angle), -5.0f, 5 * sinf(angle));
+		refr["position"]->setFloat(5 * cosf(angle + M_PIf), -5.0f, 5 * sinf(angle + M_PIf));
+		frame = 0;
+	}
+}
+
+void TestScene::saveScreenshot(const char* filename) {
 	//printf("Saving Screenshot: %s\n", filename);
 	Buffer buffer = context["image"]->getBuffer();
 	unsigned width, height;
@@ -59,7 +70,6 @@ void TestScene::saveScreenshot(const char* filename, float iterations) {
 	for (unsigned y = 0; y < height; y++) {
 		for (unsigned x = 0; x < width; x++) {
 			uchar4 c = data[(height - y - 1u) * width + x];
-			//c /= iterations;
 			fprintf(file, "%d %d %d ", c.x, c.y, c.z);
 		}
 	}
@@ -67,27 +77,46 @@ void TestScene::saveScreenshot(const char* filename, float iterations) {
 	fclose(file);
 }
 
+void TestScene::setTarget(unsigned vbo) {
+	printf("Setting target %d\n", vbo);
+	Buffer buffer = context->createBufferFromGLBO(RT_BUFFER_OUTPUT, vbo);
+	buffer->setFormat(RT_FORMAT_UNSIGNED_BYTE4);
+	buffer->setSize(width, height);
+	context["image"]->set(buffer);
+	context->validate();
+	context->compile();
+}
+
+void TestScene::keyReleased(int key) {
+	if (key == 'R') frame = 0;
+	if (key == 'P') paused = !paused;
+}
+
+void TestScene::mousePressed(int button) {
+	if (button == 0) mouse = true;
+}
+
+void TestScene::mouseReleased(int button) {
+	if (button == 0) mouse = false;
+}
+
+void TestScene::mouseMoved(double x, double y, double dx, double dy) {
+	if (mouse) {
+		yaw -= float(dx / 4);
+		pitch -= float(dy / 4);
+		updateCamera();
+		frame = 0;
+	}
+}
 void TestScene::initScene() {
 	printf("Initializing Scene\n");
 	const char* file = "PTX/PathTracer.cu.ptx";
 	context->setRayGenerationProgram(0, context->createProgramFromPTXFile(file, "pathTrace"));
 	context->setExceptionProgram(0, context->createProgramFromPTXFile(file, "exception"));
 	context->setMissProgram(0, context->createProgramFromPTXFile(file, "miss"));
-	float3 eye = make_float3(0.0f, 0.0f, -30.0f);
-	float3 lookdir = normalize(make_float3(0, 0, 0) - eye);
-	float3 camera_u = cross(lookdir, make_float3(0, 1, 0));
-	float3 camera_v = cross(camera_u, lookdir);
-	float ulen = tanf(50.0f / 2.0f * M_PIf / 180.0f);
-	camera_u = normalize(camera_u);
-	camera_u *= ulen;
-	float aspect_ratio = float(width) / float(height);
-	float vlen = ulen / aspect_ratio;
-	camera_v = normalize(camera_v);
-	camera_v *= vlen;
-	context["eye"]->setFloat(eye.x, eye.y, eye.z);
-	context["U"]->setFloat(camera_u.x, camera_u.y, camera_u.z);
-	context["V"]->setFloat(camera_v.x, camera_v.y, camera_v.z);
-	context["W"]->setFloat(lookdir.x, lookdir.y, lookdir.z);
+	mouse = paused = false;
+	pitch = yaw = angle = 0.0f;
+	updateCamera();
 	
 	printf("Loading Geometry\n");
 	Geometry geometry = loadGeometry("PTX/Sphere.cu.ptx");
@@ -112,19 +141,19 @@ void TestScene::initScene() {
 	floor["radius"]->setFloat(990.0f);
 	floor["position"]->setFloat(0.0f, -1000.0f, 0.0f);
 
-	GeometryInstance matte = createObject(geometry, diffuse, make_float3(0, 0, 0), make_float3(0.5f, 0.5f, 0.5f));
+	matte = createObject(geometry, diffuse, make_float3(0, 0, 0), make_float3(0.5f, 0.5f, 0.5f));
 	matte["radius"]->setFloat(3.0f);
-	matte["position"]->setFloat(0.0f, -1.0f, 0.0f);
-	GeometryInstance refl = createObject(geometry, reflect, make_float3(0, 0, 0), make_float3(0.5f, 0.5f, 0.5f));
+	matte["position"]->setFloat(0.0f, 2.0f, 0.0f);
+	refl = createObject(geometry, reflect, make_float3(0, 0, 0), make_float3(0.5f, 0.5f, 0.5f));
 	refl["radius"]->setFloat(3.0f);
 	refl["position"]->setFloat(5.0f, -5.0f, 5.0f);
-	GeometryInstance refr = createObject(geometry, refract, make_float3(0, 0, 0), make_float3(0.5f, 0.5f, 0.5f));
-	refr["radius"]->setFloat(3.0f);
+	refr = createObject(geometry, refract, make_float3(0, 0, 0), make_float3(0.5f, 0.5f, 0.5f));
+	refr["radius"]->setFloat(4.0f);
 	refr["position"]->setFloat(-5.0f, -5.0f, 0.0f);
 
 	GeometryInstance light = createObject(geometry, diffuse, make_float3(16, 16, 16), make_float3(0, 0, 0));
 	light["radius"]->setFloat(2.0f);
-	light["position"]->setFloat(0.0f, 8.0f, 0.0f);
+	light["position"]->setFloat(0.0f, 10.0f, 0.0f);
 
 	PotentialLight emitter;
 	emitter.radius = 2.0f;
@@ -140,7 +169,8 @@ void TestScene::initScene() {
 	group->setChild(5, refl);
 	group->setChild(6, refr);
 	group->setChild(7, light);
-	group->setAcceleration(context->createAcceleration("Bvh", "BvhSingle"));	// Maybe pointless...	
+	//group->setAcceleration(context->createAcceleration("Bvh", "BvhSingle"));	// Maybe pointless...	
+	group->setAcceleration(context->createAcceleration("NoAccel", "NoAccel"));
 	context["objects"]->set(group);
 }
 
@@ -153,11 +183,31 @@ Geometry TestScene::loadGeometry(const char* ptx) {
 }
 
 GeometryInstance TestScene::createObject(Geometry geom, Material mat, float3 emission, float3 color) {
+	static int id = 0;
 	GeometryInstance instance = context->createGeometryInstance();
 	instance->setGeometry(geom);
 	instance->setMaterialCount(1);
 	instance->setMaterial(0, mat);
 	instance["emission"]->setFloat(emission);
 	instance["color"]->setFloat(color);
+	instance["gID"]->setInt(++id);
 	return instance;
+}
+
+void TestScene::updateCamera() {
+	float3 eye = make_float3(0.0f, 0.0f, -30.0f);
+	float3 lookdir = normalize(make_float3(30 * sinf(M_PIf * yaw / 180.0f), 30 * sinf(M_PIf * pitch / 180.0f), 0) - eye);
+	float3 camera_u = cross(lookdir, make_float3(0, 1, 0));
+	float3 camera_v = cross(camera_u, lookdir);
+	float ulen = tanf(50.0f / 2.0f * M_PIf / 180.0f);
+	camera_u = normalize(camera_u);
+	camera_u *= ulen;
+	float aspect_ratio = float(width) / float(height);
+	float vlen = ulen / aspect_ratio;
+	camera_v = normalize(camera_v);
+	camera_v *= vlen;
+	context["eye"]->setFloat(eye.x, eye.y, eye.z);
+	context["U"]->setFloat(camera_u.x, camera_u.y, camera_u.z);
+	context["V"]->setFloat(camera_v.x, camera_v.y, camera_v.z);
+	context["W"]->setFloat(lookdir.x, lookdir.y, lookdir.z);
 }
