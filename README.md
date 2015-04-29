@@ -9,6 +9,8 @@ i5 4670k @ 4.2GHz
 16gb 1866MHz ram  
 GTX 770 2GB
 
+https://youtu.be/0p9p8_US_xI
+
 Here is a sample of path tracing with 6 samples per pixel and a maximum depth of 4 after one second (24 frames)  
 ![pathtrace](https://raw.github.com/jkevin1/OptiX/master/PathTracing/tests/frame24.png)  
 Here is the first frame, just shy of 24fps, needs optimization, better hardware  
