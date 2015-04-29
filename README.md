@@ -12,7 +12,7 @@ GTX 770 2GB
 Recording of real-time path tracer: https://youtu.be/0p9p8_US_xI
 
 Comparison of the blur effect to reduce noise:  
-![blur](https://raw.github.com/jkevin1/OptiX/master/comparison.png)  
+![blur](https://raw.github.com/jkevin1/OptiX/master/Path Tracing/comparison.png)  
 
 Here is a high res rendering of the sphere scene  
 ![spheres](https://raw.github.com/jkevin1/OptiX/master/spheres.png)
