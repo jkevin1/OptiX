@@ -1,19 +1,17 @@
 # OptiX
 
-Creating a raytracer using NVIDIA OptiX.  End goal is to implement global illumination, hopefully with decent fps.
-
-Sphere scene: http://youtu.be/TFm6v1NxiR4  
+Creating a real time path-tracer using NVIDIA OptiX.
 
 Rendering 1024x768 with no geometry is about 800fps on my computer  
 i5 4670k @ 4.2GHz  
 16gb 1866MHz ram  
 GTX 770 2GB
 
-Recording of real-time path tracer: https://youtu.be/0p9p8_US_xI
-
+Recording of real-time path tracer: https://youtu.be/0p9p8_US_xI  
 Comparison of the blur effect to reduce noise:  
 ![blur](https://raw.github.com/jkevin1/OptiX/master/Path Tracing/comparison.png)  
 
+Sphere scene: http://youtu.be/TFm6v1NxiR4  
 Here is a high res rendering of the sphere scene  
 ![spheres](https://raw.github.com/jkevin1/OptiX/master/spheres.png)
 
